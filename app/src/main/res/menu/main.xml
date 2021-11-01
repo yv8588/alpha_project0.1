@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/auth"
+    android:title="Auth"
+    android:orderInCategory="100"/>
+    <item
+        android:id="@+id/tv"
+        android:title="TV"
+        android:orderInCategory="200"/>
+    <item
+        android:id="@+id/gallery"
+        android:title="Gallery"
+        android:orderInCategory="300"/>
+</menu>
