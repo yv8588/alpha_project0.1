@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (task.isSuccessful()) {
                 prove = true;
-            } else {
+            }
+            else {
                 prove = false;
             }
 
@@ -55,13 +56,6 @@ public class MainActivity extends AppCompatActivity {
         else{
             createUserAuthWithEmailAndPassword(m,p);
             Toast.makeText(MainActivity.this,"user registered",Toast.LENGTH_SHORT).show();
-          //  user=new User(m,p);
-          //  refUser.child(p).setValue(user);
-            password.setText("");
-            password.setHint("password");
-            mail.setText("");
-            mail.setHint("mail");
-
         }
     }
     @Override
