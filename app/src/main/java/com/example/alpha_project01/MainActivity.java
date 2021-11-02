@@ -21,7 +21,6 @@ import static com.example.alpha_project01.FBref.refUser;
 public class MainActivity extends AppCompatActivity {
    EditText password,mail;
    String p,m;
-   User user;
    boolean prove;
        @Override
     protected void onCreate(Bundle savedInstanceState) {
