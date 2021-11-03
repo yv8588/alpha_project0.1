@@ -39,25 +39,34 @@ import java.io.FileNotFoundException;
 import java.net.URI;
 import java.util.ArrayList;
 
+import static com.example.alpha_project01.FBref.AUTH;
+import static com.example.alpha_project01.FBref.storageRef;
+
 
 public class gallery1 extends AppCompatActivity {
     private static final String TAG = "gallery1";
-    EditText name;
     String n;
     ProgressDialog progressDialog;
-    private StorageReference storageRef;
-    FirebaseAuth auth;
     private int Read=111;
     private int File=222;
+    FirebaseUser user;
+    String UserID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery1);
-        name=(EditText) findViewById(R.id.name);
         progressDialog=new ProgressDialog(gallery1.this);
-        storageRef= FirebaseStorage.getInstance().getReference();
-        auth=FirebaseAuth.getInstance();
         addFilePath();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        user=AUTH.getCurrentUser();
+        if(user!=null){
+            UserID=user.getUid();
+        }
+
     }
 
     private void addFilePath() {
@@ -106,8 +115,6 @@ public class gallery1 extends AppCompatActivity {
         else{
             selectImage();
         }
-        name.setText("");
-        name.setHint("image name");
     }
 
     private void selectImage() {
@@ -123,12 +130,8 @@ public class gallery1 extends AppCompatActivity {
                 Log.d(TAG,"onClick : uploading Image.");
                 progressDialog.setMessage("Uploading image...");
                 progressDialog.show();
-                FirebaseUser user=auth.getCurrentUser();
-                String UserID=user.getUid();
-                n=name.getText().toString();
-                if(!n.equals("")){
                     Uri uri= data.getData();
-                    StorageReference srf=storageRef.child("images/users/"+UserID+n+".jpg");
+                    StorageReference srf=storageRef.child("images/"+UserID+".jpg");
                     srf.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -141,11 +144,9 @@ public class gallery1 extends AppCompatActivity {
                         }
                     });
                     progressDialog.dismiss();
-
                 }
 
             }
 
         }
     }
-}

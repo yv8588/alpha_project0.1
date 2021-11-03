@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +15,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import static com.example.alpha_project01.FBref.AUTH;
-import static com.example.alpha_project01.FBref.refUser;
 
 public class MainActivity extends AppCompatActivity {
    EditText password,mail;
@@ -52,11 +53,19 @@ public class MainActivity extends AppCompatActivity {
         else if(p==null){
             Toast.makeText(MainActivity.this, "enter password", Toast.LENGTH_SHORT).show();
         }
-        else{
+        else if(Patterns.EMAIL_ADDRESS.matcher(m).matches()){
             createUserAuthWithEmailAndPassword(m,p);
             Toast.makeText(MainActivity.this,"user registered",Toast.LENGTH_SHORT).show();
+            FirebaseUser user = AUTH.getCurrentUser();
+            String userid = user.getUid();
+            Toast.makeText(this, userid, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(MainActivity.this,"email does not exist",Toast.LENGTH_SHORT).show();
         }
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
@@ -79,5 +88,39 @@ public class MainActivity extends AppCompatActivity {
            // startActivity(si);
         //}
         return super.onOptionsItemSelected(item);
+    }
+    public boolean sign(String mail,String password){
+        AUTH.signInWithEmailAndPassword(mail, password).addOnCompleteListener((@NonNull Task<AuthResult> task) -> {
+
+            if (task.isSuccessful()) {
+                prove = true;
+            }
+            else {
+                prove = false;
+            }
+
+        });
+        return prove;
+
+    }
+
+    public void signIn(View view) {
+        p=password.getText().toString();
+        m=mail.getText().toString();
+        if(m==null){
+            Toast.makeText(MainActivity.this, "enter mail", Toast.LENGTH_SHORT).show();
+        }
+        else if(p==null){
+            Toast.makeText(MainActivity.this, "enter password", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            boolean b=sign(m,p);
+            if(b){
+                Toast.makeText(MainActivity.this,"user signed in",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(MainActivity.this,"sign in failed",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
