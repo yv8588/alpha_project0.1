@@ -45,7 +45,6 @@ import static com.example.alpha_project01.FBref.storageRef;
 
 public class gallery1 extends AppCompatActivity {
     private static final String TAG = "gallery1";
-    String n;
     ProgressDialog progressDialog;
     private int Read=111;
     private int File=222;

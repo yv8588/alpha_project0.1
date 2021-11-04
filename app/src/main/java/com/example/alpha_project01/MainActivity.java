@@ -21,7 +21,7 @@ import static com.example.alpha_project01.FBref.AUTH;
 
 public class MainActivity extends AppCompatActivity {
    EditText password,mail;
-   String p,m;
+   String p,m, userid;
    boolean prove;
        @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +57,18 @@ public class MainActivity extends AppCompatActivity {
             createUserAuthWithEmailAndPassword(m,p);
             Toast.makeText(MainActivity.this,"user registered",Toast.LENGTH_SHORT).show();
             FirebaseUser user = AUTH.getCurrentUser();
-            String userid = user.getUid();
+            if(user!=null) {
+                userid  = user.getUid();
+            }
             Toast.makeText(this, userid, Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(MainActivity.this,"email does not exist",Toast.LENGTH_SHORT).show();
         }
+        mail.setText("");
+        password.setText("");
+        mail.setHint("mail");
+        password.setHint("password");
     }
 
 
@@ -122,5 +128,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"sign in failed",Toast.LENGTH_SHORT).show();
             }
         }
+        mail.setText("");
+        password.setText("");
+        mail.setHint("mail");
+        password.setHint("password");
     }
 }
