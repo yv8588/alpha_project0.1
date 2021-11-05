@@ -100,10 +100,6 @@ public class gallery1 extends AppCompatActivity {
             si = new Intent(this,MainActivity.class);
             startActivity(si);
         }
-        //else if(s.equals("TV")){
-            //si=new Intent(this,update.class);
-           // startActivity(si);
-        //}
         return super.onOptionsItemSelected(item);
     }
 
